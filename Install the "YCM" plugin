@@ -1,0 +1,38 @@
+#准备安装
+sudo apt-get install vim-full
+vim --version | grep python   #查看vim支持python版本默认为
+sudo apt-get install vim-nox-py2   #安装vim支持py2包 
+sudo update-alternatives --config vim   #切换vim模式
+sudo apt-get install build-essential cmake
+sudo apt-get install python-dev python3-dev
+
+#安装YouCompleteMe
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim #安装vim管理工具Vundle
+git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle  
+git clone https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe  
+cd ~/.vim/bundle/YouCompleteMe  
+git submodule update --init --recursive  
+将PluginInstall 'Valloric/YouCompleteMe'添加进.vimrc     
+:PluinInstall执行
+sudo apt-get install Clang #下载clang支持c系语言
+./install.py --clang-completer --system-libclang
+
+#配置YCM
+vim .vimrc下配置
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'       #配置全局路径
+let g:ycm_confirm_extra_conf=0   #每次直接加载该文件，不提示是否要加载
+
+cd .vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/
+vim .ycm_extra_conf.py
+在flags下添加:
+'-isystem',
+'/usr/include',
+'-isystem',
+'usr/include/c++/5.4.0'
+'-isystem',
+'usr/include/x86_64-linux-gnu/c++',
+并注释掉这一段：
+# try:
+#     final_flags.remove( ‘-stdlib-libc++‘ )
+#except ValueError:
+#     pass
